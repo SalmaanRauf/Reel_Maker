@@ -1,0 +1,26 @@
+# Video Repurposing Pipeline - Dependencies
+
+# Audio/Video Processing
+openai-whisper
+moviepy>=2.0.0
+ffmpeg-python
+opencv-python
+
+# AI/ML 
+ultralytics
+torch
+torchvision
+
+# LLM Integration
+google-generativeai
+anthropic
+
+# Utilities
+pillow>=10.0.0
+numpy
+rich
+typer
+pydantic
+
+# Face Detection
+mediapipe

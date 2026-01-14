@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+.env
+
+# ML Models (large files)
+*.pt
+*.pth
+*.bin
+*.onnx
+*.safetensors
+
+# Video/Audio files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wav
+*.mp3
+*.m4a
+
+# Output directories
+output/
+output_*/
+temp/
+runs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# API Keys
+.env
+*.env
+
+# Assets cache
+assets/broll_cache/
+assets/sfx/
