@@ -4,11 +4,15 @@ Uses AI to identify the most engaging moments based on topic and virality criter
 """
 import json
 import re
+import requests
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, asdict
 from rich.console import Console
 from rich.table import Table
+
+# Ollama - always available (local, no API key needed)
+OLLAMA_URL = "http://localhost:11434"
 
 try:
     import anthropic
@@ -229,6 +233,54 @@ def analyze_with_gemini(
     return parse_clip_response(response.text)
 
 
+def analyze_with_ollama(
+    transcript_text: str,
+    topic: str,
+    num_clips: int = 5,
+    model: str = "llama3.1:8b"
+) -> List[ClipCandidate]:
+    """
+    Use Ollama for 100% free local LLM analysis.
+    Supports: llama3.1:8b, gemma2:9b, mistral:7b, etc.
+    """
+    # Check if Ollama is running
+    try:
+        r = requests.get(f"{OLLAMA_URL}/api/tags", timeout=5)
+        r.raise_for_status()
+    except requests.exceptions.RequestException:
+        raise ConnectionError(
+            "Ollama not running! Start with: ollama serve\n"
+            f"Then pull a model: ollama pull {model}"
+        )
+    
+    prompt = VIRAL_ANALYSIS_PROMPT.format(
+        transcript_text=transcript_text[:15000],  # Limit for context window
+        topic=topic,
+        num_clips=num_clips
+    )
+    
+    console.print(f"[cyan]Analyzing with Ollama ({model})...[/cyan]")
+    console.print("[dim]This runs locally - no API costs![/dim]")
+    
+    response = requests.post(
+        f"{OLLAMA_URL}/api/generate",
+        json={
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "temperature": 0.7,
+                "num_predict": 4096
+            }
+        },
+        timeout=300  # 5 min timeout for long transcripts
+    )
+    response.raise_for_status()
+    
+    result = response.json()
+    return parse_clip_response(result["response"])
+
+
 def parse_clip_response(response_text: str) -> List[ClipCandidate]:
     """Parse the JSON response from LLM into ClipCandidate objects"""
     # Extract JSON from response (handle markdown code blocks)
@@ -294,8 +346,10 @@ def analyze_transcript(
         clips = analyze_with_claude(transcript_text, topic, num_clips, api_key)
     elif llm_provider == "gemini":
         clips = analyze_with_gemini(transcript_text, topic, num_clips, api_key)
+    elif llm_provider == "ollama":
+        clips = analyze_with_ollama(transcript_text, topic, num_clips)
     else:
-        raise ValueError(f"Unknown LLM provider: {llm_provider}")
+        raise ValueError(f"Unknown LLM provider: {llm_provider}. Use: ollama, claude, or gemini")
     
     # Sort by virality score
     clips.sort(key=lambda c: c.virality_score, reverse=True)

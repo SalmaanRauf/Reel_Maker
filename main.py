@@ -28,7 +28,7 @@ def process_video(
     topic: str,
     num_clips: int = 5,
     output_dir: Path = OUTPUT_DIR,
-    llm_provider: str = "claude",
+    llm_provider: str = "ollama",
     api_key: str = None
 ) -> list:
     """
@@ -143,8 +143,9 @@ def main():
     parser.add_argument("--topic", "-t", required=True, help="Topic to extract clips about")
     parser.add_argument("--clips", "-n", type=int, default=5, help="Number of clips")
     parser.add_argument("--output", "-o", default=None, help="Output directory")
-    parser.add_argument("--llm", default="claude", choices=["claude", "gemini"])
-    parser.add_argument("--api-key", default=None, help="LLM API key")
+    parser.add_argument("--llm", default="ollama", choices=["ollama", "claude", "gemini"],
+                        help="LLM provider (default: ollama for free local inference)")
+    parser.add_argument("--api-key", default=None, help="LLM API key (not needed for ollama)")
     
     args = parser.parse_args()
     
