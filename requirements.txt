@@ -1,4 +1,4 @@
-# Video Repurposing Pipeline - Dependencies
+# Reel Maker - Viral Clip Generator
 
 # Audio/Video Processing
 openai-whisper
@@ -14,6 +14,7 @@ torchvision
 # LLM Integration
 google-generativeai
 anthropic
+requests
 
 # Utilities
 pillow>=10.0.0
@@ -24,3 +25,4 @@ pydantic
 
 # Face Detection
 mediapipe
+

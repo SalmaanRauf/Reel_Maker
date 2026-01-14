@@ -1,61 +1,70 @@
-# 🎬 Viral Clip Generator
+# Reel Maker 🎬
 
-Automatically transform long-form podcasts into viral-ready short clips for TikTok, Instagram Reels, and YouTube Shorts.
+Free, local Opus Clip alternative for generating viral short-form clips from podcasts.
 
 ## Features
 
-- **AI-Powered Clip Selection**: Uses Claude to identify the most viral-worthy moments
-- **Smart Cropping**: YOLOv8-powered person detection with smooth tracking
-- **Hormozi-Style Captions**: Bold, animated word-by-word captions
-- **Whisper Transcription**: Accurate word-level timestamps for perfect caption sync
+- **100% Free** - Uses Ollama for local LLM inference (no API keys needed)
+- **Smart Clip Selection** - AI identifies the most viral-worthy moments
+- **Animated Captions** - Hormozi-style pop animations with keyword highlights
+- **Auto B-Roll** - Fetches relevant stock footage from Pexels (free API)
+- **Sound Effects** - Keyword-triggered SFX insertion
+- **Smart Cropping** - AI-powered 9:16 framing with face tracking
 
 ## Quick Start
 
 ```bash
-# Set your API key
-export ANTHROPIC_API_KEY="your-key-here"
+# 1. Install Ollama (one-time)
+brew install ollama
+ollama pull llama3.1:8b
 
-# Generate clips
-python main.py --input "path/to/podcast.mp4" --topic "health tips" --clips 5
-```
+# 2. Install dependencies
+pip install -r requirements.txt
 
-## Usage
-
-```bash
+# 3. Run!
 python main.py \
-    --input "Podcast w Dr Abud.mp4" \
-    --topic "medicine" \
-    --clips 5 \
-    --output ./output
+    --input "Podcast.mp4" \
+    --topic "health and fitness" \
+    --clips 5
 ```
 
-### Arguments
+## Project Structure
 
-| Argument | Description | Default |
-|----------|-------------|---------|
-| `--input, -i` | Input video file | Required |
-| `--topic, -t` | Topic to extract clips about | Required |
-| `--clips, -n` | Number of clips to generate | 5 |
-| `--output, -o` | Output directory | ./output |
-| `--llm` | LLM provider (claude/gemini) | claude |
-| `--api-key` | LLM API key | Uses env var |
+```
+├── main.py              # Main orchestrator
+├── config.py            # Configuration settings
+├── transcriber.py       # Whisper transcription with word timestamps
+├── analyzer.py          # LLM-powered viral clip selection (Ollama/Claude/Gemini)
+├── cropper.py           # YOLOv8 face detection + smart cropping
+├── captioner.py         # MoviePy-based caption rendering
+├── caption_animator.py  # ASS subtitle generation with pop effects
+├── broll_engine.py      # Auto B-roll from Pexels API
+├── sfx_engine.py        # Sound effect insertion
+└── fast_renderer.py     # FFmpeg-based fast rendering
+```
 
-## Pipeline
+## Configuration
 
-1. **Transcription** - Whisper extracts audio and generates word-level timestamps
-2. **Analysis** - Claude identifies the most viral moments based on your topic
-3. **Smart Crop** - YOLOv8 detects speakers and creates smooth 9:16 crops
-4. **Captions** - Adds bold, animated captions in Hormozi style
-5. **Export** - Outputs ready-to-upload vertical clips
+Set optional environment variables:
+```bash
+export PEXELS_API_KEY="your_free_key"  # For B-roll (get at pexels.com/api)
+```
 
-## Output
+## LLM Options
 
-Clips are saved to `./output/` with names like:
-- `clip_1_This_Changed_Everything.mp4`
-- `clip_2_Nobody_Tells_You_This.mp4`
+| Provider | Cost | Setup |
+|----------|------|-------|
+| Ollama (default) | Free | `ollama pull llama3.1:8b` |
+| Claude | Paid | Set `ANTHROPIC_API_KEY` |
+| Gemini | Paid | Set `GOOGLE_API_KEY` |
 
 ## Requirements
 
 - Python 3.10+
-- FFmpeg installed (`brew install ffmpeg`)
-- Anthropic API key (for Claude)
+- FFmpeg
+- Ollama (for free local LLM)
+- ~5GB disk space for models
+
+## License
+
+MIT - Free for personal and commercial use.
