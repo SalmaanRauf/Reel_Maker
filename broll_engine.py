@@ -12,8 +12,21 @@ from rich.console import Console
 
 console = Console()
 
+# Load from .env.local if exists
+def load_env():
+    env_file = Path(__file__).parent / ".env.local"
+    if env_file.exists():
+        with open(env_file) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key.strip()] = value.strip()
+
+load_env()
+
 # Free Pexels API - get key at https://www.pexels.com/api/
-PEXELS_API_KEY = os.environ.get("PEXELS_API_KEY", "")
+PEXELS_API_KEY = os.environ.get("PEXELS_KEY", os.environ.get("PEXELS_API_KEY", ""))
 PEXELS_API_URL = "https://api.pexels.com/videos/search"
 
 # Cache directory for downloaded B-roll

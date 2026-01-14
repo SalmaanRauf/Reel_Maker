@@ -43,6 +43,7 @@ Thumbs.db
 
 # API Keys
 .env
+.env.local
 *.env
 
 # Assets cache
