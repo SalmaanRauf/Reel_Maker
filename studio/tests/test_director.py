@@ -1,4 +1,5 @@
-from podcast_studio.director import BeatKind, analyze_beats, direct_clip
+from podcast_studio.director import BeatKind, analyze_beats
+from podcast_studio.director_calibrated import direct_clip
 from podcast_studio.models import EditIntensity, MotionKind, Transcript, Word
 from podcast_studio.presets import get_style, style_names
 
@@ -29,6 +30,7 @@ def test_director_preserves_qualifier_sensitive_beats_and_builds_motion():
     result = direct_clip(transcript, style="authority", intensity="balanced")
     assert result.plan.duration > 9
     assert result.plan.metadata["editorial_constraints"]["constant_drift_prohibited"] is True
+    assert result.plan.metadata["directed_by"] == "semantic-director-v2.1-calibrated"
     assert any(segment.motion.kind is not MotionKind.HOLD for segment in result.plan.segments)
     assert any("Qualifier-sensitive" in item for item in result.warnings)
     assert result.plan.to_dict()["intensity"] == "balanced"
