@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "thresholds": {
+    "minimum_qc_score": 85,
+    "minimum_style_match": 70,
+    "maximum_visual_concurrency": 3,
+    "maximum_broll_coverage": 0.45,
+    "maximum_overlay_coverage": 0.55
+  },
+  "cases": [
+    {
+      "id": "expert-short-01",
+      "plan": "../plans/01-expert-short.json",
+      "render": "../renders/previews/01-expert-short.mp4",
+      "reference_style": "../analysis/style/reference-authority.json"
+    }
+  ]
+}
