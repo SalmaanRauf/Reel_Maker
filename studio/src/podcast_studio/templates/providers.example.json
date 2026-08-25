@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "providers": {
+    "background_removal": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_matting_adapter", "--input", "{input}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 1800,
+      "network_allowed": false,
+      "requires_consent": false
+    },
+    "eye_contact": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_eye_contact_adapter", "--input", "{input}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 1800,
+      "network_allowed": false,
+      "requires_consent": true
+    },
+    "translation": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_translation_adapter", "--input", "{input}", "--language", "{language}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 1800,
+      "network_allowed": false,
+      "requires_consent": false
+    },
+    "voice_clone": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_voice_adapter", "--reference", "{reference}", "--script", "{script}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 1800,
+      "network_allowed": false,
+      "requires_consent": true,
+      "required_consent_scope": "voice-clone"
+    },
+    "lip_sync": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_lipsync_adapter", "--video", "{input}", "--audio", "{audio}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 3600,
+      "network_allowed": false,
+      "requires_consent": true,
+      "required_consent_scope": "identity-manipulation"
+    },
+    "image_generation": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_image_adapter", "--prompt-file", "{prompt}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 1800,
+      "network_allowed": false,
+      "requires_consent": false
+    },
+    "video_generation": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_video_adapter", "--prompt-file", "{prompt}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 7200,
+      "network_allowed": false,
+      "requires_consent": false
+    },
+    "music_generation": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_music_adapter", "--prompt-file", "{prompt}", "--duration", "{duration}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 3600,
+      "network_allowed": false,
+      "requires_consent": false
+    },
+    "sound_effect_generation": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_sfx_adapter", "--prompt-file", "{prompt}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 1800,
+      "network_allowed": false,
+      "requires_consent": false
+    },
+    "avatar": {
+      "enabled": false,
+      "mode": "command",
+      "command": ["python", "-m", "your_local_avatar_adapter", "--identity", "{identity}", "--audio", "{audio}", "--output", "{output}"],
+      "allowed_executables": ["python"],
+      "timeout_seconds": 7200,
+      "network_allowed": false,
+      "requires_consent": true,
+      "required_consent_scope": "digital-replica"
+    }
+  }
+}
