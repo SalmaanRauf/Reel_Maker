@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentic-podcast-studio"
+version = "0.2.0"
+description = "Captions-grade local podcast editor operated by Claude Code or Codex"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [{name = "Agentic Podcast Studio contributors"}]
+dependencies = []
+keywords = ["podcast", "video-editing", "ffmpeg", "mcp", "claude-code", "codex", "captions", "shorts"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Video :: Non-Linear Editor",
+]
+
+[project.optional-dependencies]
+transcribe = ["faster-whisper>=1.1.0"]
+mlx = ["mlx-whisper>=0.4.0; platform_system == 'Darwin' and platform_machine == 'arm64'"]
+sync = ["numpy>=1.26"]
+vision = ["opencv-python>=4.10", "numpy>=1.26"]
+interchange = ["opentimelineio>=0.17.0"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.8"]
+all = ["faster-whisper>=1.1.0", "numpy>=1.26", "opencv-python>=4.10", "opentimelineio>=0.17.0"]
+
+[project.scripts]
+podcast-studio = "podcast_studio.cli:main"
+podcast-studio-mcp = "podcast_studio.mcp_server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+podcast_studio = ["studio/*", "templates/*", "templates/podcast-editor/*"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
